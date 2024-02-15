@@ -11,10 +11,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3  # Update to v3 for Node.js 20 support
-      - name: Get Date
+      - name: Get Date (using environment variable)
         id: get-date
+        run: echo "::set-output name=date::$(date -u +'%Y%m%d')"
+        shell: bash
+
+      - name: Remove Git Config
         run: |
-          echo "::set-output name=date::$(date -u +'%Y%m%d')"  # Use `date` instead of `/bin/date` for portability
+          git config --unset http.https://github.com/.extraheader
         shell: bash
 
       - name: Cache Buildozer global directory
